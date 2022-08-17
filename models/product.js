@@ -14,16 +14,15 @@ const mongoose = require("mongoose"); //mongooseObject //mongoose module
 //creating productSchemaInstanceObject - with new keyword and schemaClassObject constructor method
 
 //setting validtaions/constraints in objectArgument - longhand way
-///cannot ommit name property, price gets converted to type number, addtional key:values get neglected(no error)
-//default gets set if property not passed in,name maxlength,price min val 0,categories:array of strings(converts numbers)(default array has one string),
-//setting validations/contraints for properties inside type:Object - default if ommited
-//custome error messages -eg  min:[0,"The price needs to be postive number"],setting (atomicValue)customEnumType with pre fixed values size needs to use eg.(booleanEnumType takes true,false)
-//but here enum validator is of type string array with pre fixed values size needs to use
+///cannot ommit name property,cannot ommit price property, price gets converted to type number, addtional key:values get neglected(no error)
+//price min val 0,setting (atomicValue)customEnumType with pre fixed values category needs to use eg.(booleanEnumType takes true,false)
+//but here enum validator is of type string array with pre fixed values category needs to use,category needs to be lowercase
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: Number, require: true, min: 0 },
   category: {
     type: String,
+    lowercase: true,
     enum: ["fruit", "vegetable", "dairy"],
   },
 });
