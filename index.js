@@ -36,13 +36,26 @@ app.set("view engine", "ejs"); //auto require("ejs")
 //change path to absolute path to index.js
 app.set("views", path.join(__dirname, "/views"));
 
-//RESTful webApi crud operations pattern
+// *********************************************************************************************************
+//RESTful webApi crud operations pattern + MongoDB CRUD Operations using mongoose-ODM (modelClassObject)
+// *********************************************************************************************************
 
-//httpMethod=get,path/resource-/test  -(direct match/exact path)
-//(READ) name-index,purpose-display all comments from DB server
+//httpMethod=GET,path/resource-/products  -(direct match/exact path)
+//(READ) name-index,purpose-display all documents in (products)collection from (farmStanddb)db
+//execute callback when http structure request arrives
 //convert (http structured) request to req jsObject + create res jsObject
-app.get("/test", (req, res) => {
-  res.send("test"); //content-type:text/plain + converted to httpStructued response
+//async(ie continues running outside code if it hits an await inside) callback implicit returns promiseObject(resolved,undefined) - can await a promiseObject inside
+//async function expression without an await is just a normal syncronous function expression
+app.get("/products", async (req, res) => {
+  // *******************************************
+  //READ - querying a collection for a document/documents
+  // *******************************************
+  //productClassObject.method(queryObject) ie modelClassObject.method() - same as - db.products.find({})
+  //returns thenableObject - pending to resolved(dataObject),rejected(errorObject)
+  const products = await Product.find({}); //products = dataObject ie array of all jsObjects
+  res.render("products/index", { products: products }); //(ejs filePath,variable sent to ejs)
+  //render() - executes js - converts  ejs file into pure html
+  //render() - converts jsObject to (http structure)response //content-type:text/html
 });
 
 //adddress - localhost:3000
