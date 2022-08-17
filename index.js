@@ -13,7 +13,7 @@ const Product = require("./models/product"); //productClassObject(ie Model) //se
 // *******************************************
 //mongooseObject.method(url/defaultPortNo/databaseToUse,optionsObject-notNeeded) //returns promiseObject pending
 mongoose
-  .connect("mongodb://localhost:27017/farmstanddb", {
+  .connect("mongodb://localhost:27017/farmStanddb", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
