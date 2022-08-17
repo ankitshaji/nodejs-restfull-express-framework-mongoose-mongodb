@@ -73,7 +73,7 @@ const seedProductsArray = [
 //CREATE - creating mutiple new documents for the collection - dont usually use
 // *******************************************
 //creates the collection if not already existing
-//productClassObject.method(array of jsObjects) - ie modelClassObject.method() - returns promiseObject pending to resolve(data) or reject(data) //do not need to modelObject.save()
+//productClassObject.method(array of jsObjects) - ie modelClassObject.method() - returns promiseObject pending to resolve(dataObject) or reject(errorObject) //do not need to modelObject.save()
 //same as - db.products.insertMany([{name:"Fairy Eggplant"..},{name:"Organic Celery"..}])- argument-array of jsObjects/jsons/documents,method-converts jsObjects/jsons/doscuments to BSON + auto create id
 Product.insertMany(seedProductsArray)
   .then((data) => {
