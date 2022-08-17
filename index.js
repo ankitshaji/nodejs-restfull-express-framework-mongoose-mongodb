@@ -58,6 +58,27 @@ app.get("/products", async (req, res) => {
   //render() - converts jsObject to (http structure)response //content-type:text/html
 });
 
+//httpMethod=GET,path/resource-/products/:id  -(pattern match) //:id is a path variable
+//(READ) name-show,purpose-display single specific document in (products)collection from (farmStanddb)db
+//execute callback when http structure request arrives
+//convert (http structured) request to req jsObject + create res jsObject
+//async(ie continues running outside code if it hits an await inside) callback implicit returns promiseObject(resolved,undefined) - can await a promiseObject inside
+//async function expression without an await is just a normal syncronous function expression
+app.get("/products/:id", async (req, res) => {
+  //could use productName if it was webSlug(url safe)
+  //object keys to variable - Object destructuring
+  const { id } = req.params; //pathVariablesObject
+  // *******************************************
+  //READ - querying a collection for a document by id
+  // *******************************************
+  //productClassObject.method(idString) ie modelClassObject.method() - same as - db.products.findOne({_id:"12345"})
+  //returns thenableObject - pending to resolved(dataObject),rejected(errorObject)
+  const product = await Product.findById(id); //product = dataObject ie single first matching jsObject
+  res.render("products/show", { product: product }); //(ejs filePath,variable sent to ejs)
+  //render() - executes js - converts  ejs file into pure html
+  //render() - converts jsObject to (http structure)response //content-type:text/html
+});
+
 //adddress - localhost:3000
 //app is listening for (HTTPstructured) requests
 //executes callback
