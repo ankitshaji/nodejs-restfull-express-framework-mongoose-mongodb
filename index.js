@@ -1,16 +1,19 @@
+//main file of an app that gets other npm package modules or user created modules
+
 //RESTful webApi - using REST principles
 const express = require("express"); //FunctionObject //express module
 const path = require("path"); //pathObject //path module
 const app = express(); //AppObject
 //mongoose ODM - has callback but also supports promises-ie returns promiseObject (pending,undefined) to -resove(value)(fullfulled,value) or reject(errorMessage)(rejected,errorMessage)
 const mongoose = require("mongoose"); //mongooseObject //mongoose module
+const Product = require("./models/product"); //productClassObject(ie Model) //self created module/file needs "./"
 
 // *******************************************
 // CONNECT - nodeJS runtime app connects to default mogod server port + creates db
 // *******************************************
 //mongooseObject.method(url/defaultPortNo/databaseToUse,optionsObject-notNeeded) //returns promiseObject pending
 mongoose
-  .connect("mongodb://localhost:27017/shopdb", {
+  .connect("mongodb://localhost:27017/farmstanddb", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
