@@ -45,6 +45,10 @@ app.use(methodOverride("_method")); //app.use() executes when any httpMethod/any
 //(http structure) POST request could be from browser form or postman
 app.use(express.urlencoded({ extended: true })); //app.use() executes when any httpMethod/any httpStructured request arrives
 
+//variable to pass into forms -
+//iterate over array to dynamically create option elements in a selection element of a form element
+const categories = ["fruit", "vegetable", "dairy"]; //arrayObject
+
 // *********************************************************************************************************************************************************
 //RESTful webApi crud operations pattern (route/pattern matching algorithm - order matters) + MongoDB CRUD Operations using mongoose-ODM (modelClassObject)
 // *********************************************************************************************************************************************************
@@ -73,7 +77,7 @@ app.get("/products", async (req, res) => {
 //execute callback when http structure request arrives
 //convert (http structured) request to req jsObject + create res jsObject
 app.get("/products/new", (req, res) => {
-  res.render("products/new"); //(ejs filePath)
+  res.render("products/new", { categories: categories }); //(ejs filePath,variable sent to ejs)
   //render() - executes js - converts  ejs file into pure html
   //render() - converts and sends res jsObject as (http structure)response //content-type:text/html
 });
@@ -148,7 +152,10 @@ app.get("/products/:id?/edit", async (req, res) => {
   //returns thenableObject - pending to resolved(dataObject),rejected(errorObject)
   const foundProduct = await Product.findById(id); //foundProduct = dataObject ie single first matching jsObject(document)
   //passing in foundProduct to prepoppulate form
-  res.render("products/edit", { product: foundProduct }); //(ejs filePath,renamed variable sent to ejs)
+  res.render("products/edit", {
+    product: foundProduct,
+    categories: categories,
+  }); //(ejs filePath,renamed variable sent to ejs)
   //render() - executes js - converts  ejs file into pure html
   //render() - converts and sends res jsObject as (http structure)response //content-type:text/html
 });
