@@ -37,7 +37,7 @@ app.set("view engine", "ejs"); //auto require("ejs")
 //change path to absolute path to index.js
 app.set("views", path.join(__dirname, "/views"));
 
-//middlewareFunctionObject() - override req.method from eg.POST to value of _method key eg.PUT,PATCH
+//middlewareFunctionObject() - override req.method from eg.POST to value of _method key eg.PUT,PATCH,DELETE
 //?queryString - (?key=value) therefore _method is key, we set value to it in html form
 app.use(methodOverride("_method")); //app.use() executes when any httpMethod/any httpStructured request arrives
 
@@ -189,6 +189,30 @@ app.put("/products/:id", async (req, res) => {
   //console.dir(res._header); //res.statusCode set to 302-found ie redirect //res.location set to /products/:id
   //converts and sends res jsObject as (http structure)response //default content-type:text/html
   //browser sees (http structured) response with headers and makes a (http structured) get request to location ie default(get)/products/:id
+});
+
+//httpMethod=DELETE,path/resource-/products/:id  -(pattern match) //:id is a path variable
+//(DELETE) name-destroy,purpose-delete single specific document in (products)collection of (farmStanddb)db
+//execute callback when (http structure) request arrives
+//convert (http structured) request to req jsObject + create res jsObject
+//async(ie continues running outside code if it hits an await inside) callback implicit returns promiseObject(resolved,undefined) - can await a promiseObject inside
+//async function expression without an await is just a normal syncronous function expression
+app.delete("/products/:id", async (req, res) => {
+  //object keys to variable - Object destructuring
+  const { id } = req.params; //pathVariablesObject
+  // ******************************************************************************
+  //DELETE - querying a collection(products) for a document by id then deleting it
+  // ******************************************************************************
+  //modelClass
+  //productClassObject.method(idString) ie modelClassObject.method() - same as - db.products.findOneAndDelete(({_id:"12345"})
+  //returns thenableObject - pending to resolved(dataObject),rejected(errorObject)
+  //queries (products)collection of (farmStanddb)db for single document by idString and deletes the document
+  const deletedProduct = await Product.findByIdAndDelete(id); //deletedProduct = dataObject ie single first matching jsObject(document) that was deleted
+  //fix for page refresh sending duplicate (http structured) DELETE request -
+  res.redirect("/products");
+  //console.dir(res._header); //res.statusCode set to 302-found ie redirect //res.location set to /products
+  //converts and sends res jsObject as (http structure)response //default content-type:text/html
+  //browser sees (http structured) response with headers and makes a (http structured) get request to location ie default(get)/products
 });
 
 //adddress - localhost:3000
