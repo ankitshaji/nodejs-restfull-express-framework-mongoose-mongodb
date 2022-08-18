@@ -10,7 +10,7 @@ const Product = require("./models/product"); //productClassObject(ie Model) //se
 
 //form data middlewareMethod - http structured post request body parsed to req.body
 //http structure post request could be from browser form or postman
-app.use(express.urlencoded({ extended: true })); //execute when any httpMethod/any httpStructured request arrives
+app.use(express.urlencoded({ extended: true })); //app.use() execute when any httpMethod/any httpStructured request arrives
 
 // *******************************************
 // CONNECT - nodeJS runtime app connects to default mogod server port + creates db
@@ -59,22 +59,22 @@ app.get("/products", async (req, res) => {
   const products = await Product.find({}); //products = dataObject ie array of all jsObjects(documents)
   res.render("products/index", { products: products }); //(ejs filePath,variable sent to ejs)
   //render() - executes js - converts  ejs file into pure html
-  //render() - converts jsObject to (http structure)response //content-type:text/html
+  //render() - converts and sends res jsObject as (http structure)response //content-type:text/html
 });
 
 //(http stuctured) get request to form path - (http structured) response is pure html converted from form ejs file
 //httpMethod=GET,path/resource-/products/new  -(direct match/exact path)
-//(READ) name-new,purpose-display form to submit new document into (products)collection from (farmStanddb)db
+//(READ) name-new,purpose-display form to submit new document into (products)collection of (farmStanddb)db
 //execute callback when http structure request arrives
 //convert (http structured) request to req jsObject + create res jsObject
 app.get("/products/new", (req, res) => {
   res.render("products/new"); //(ejs filePath)
   //render() - executes js - converts  ejs file into pure html
-  //render() - converts jsObject to (http structure)response //content-type:text/html
+  //render() - converts and sends res jsObject as (http structure)response //content-type:text/html
 });
 
 //httpMethod=POST,path/resource-/products  -(direct match/exact path)
-//(CREATE) name-create,purpose-create new document in (products)collection from (farmStanddb)db
+//(CREATE) name-create,purpose-create new document in (products)collection of (farmStanddb)db
 //execute callback when http structure request arrives
 //convert (http structured) request to req jsObject + create res jsObject
 //http structured request body contains data - middleware parses to req.body
@@ -82,7 +82,7 @@ app.get("/products/new", (req, res) => {
 //async function expression without an await is just a normal syncronous function expression
 app.post("/products", async (req, res) => {
   // *******************************************
-  //CREATE - creating a single new document in the (products) collection from (farmStanddb)db
+  //CREATE - creating a single new document in the (products) collection of (farmStanddb)db
   // *******************************************
   //modelClass
   //productClassObject(objectArgument-passed to constructor method)
@@ -93,19 +93,19 @@ app.post("/products", async (req, res) => {
   //price min val 0,setting (atomicValue)customEnumType with pre fixed values category needs to use eg.(booleanEnumType takes true,false)
   //but here enum validator is of type string array with pre fixed values category needs to use,category needs to be lowercase
   //create modelInstanceObject(ie document) - with new keyword and productClassObject constructor method
-  const newProduct = new Product(req.body); //form data/req.body - {key/name:inputValue,key/name:inputValue,key/name:inputValue}
+  const newProduct = new Product(req.body); //form data/req.body is jsObject {key/name:inputValue,key/name:inputValue,key/name:inputValue}
   //modelInstance.save() returns promiseObject - pending to resolved(dataObject),rejected(errorObject) ie(breaking validation/contraints)
   //creates (products)collection in (farmStanddb)db and adds (newProduct)document into the (products)collection
   const savedProduct = await newProduct.save(); //savedProduct = dataObject ie created jsObject(document)
   //fix for page refresh sending duplicate http structured post request -
   res.redirect(`/products/${newProduct._id}`);
   //console.dir(res._header); //res.statusCode set to 302-found ie redirect //res.location set to /products/:id
-  //converts and sends jsObject as (http structure)response //default content-type:text/html
+  //converts and sends res jsObject as (http structure)response //default content-type:text/html
   //browser sees (http structured) response with headers and makes a (http structured) get request to location ie default(get)/products/:id
 });
 
 //httpMethod=GET,path/resource-/products/:id  -(pattern match) //:id is a path variable
-//(READ) name-show,purpose-display single specific document in (products)collection from (farmStanddb)db
+//(READ) name-show,purpose-display single specific document in (products)collection of (farmStanddb)db
 //execute callback when http structure request arrives
 //convert (http structured) request to req jsObject + create res jsObject
 //async(ie continues running outside code if it hits an await inside) callback implicit returns promiseObject(resolved,undefined) - can await a promiseObject inside
@@ -122,7 +122,7 @@ app.get("/products/:id", async (req, res) => {
   const product = await Product.findById(id); //product = dataObject ie single first matching jsObject(document)
   res.render("products/show", { product: product }); //(ejs filePath,variable sent to ejs)
   //render() - executes js - converts  ejs file into pure html
-  //render() - converts jsObject to (http structure)response //content-type:text/html
+  //render() - converts and sends res jsObject as (http structure)response //content-type:text/html
 });
 
 //adddress - localhost:3000

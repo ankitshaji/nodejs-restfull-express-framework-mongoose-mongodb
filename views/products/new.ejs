@@ -9,7 +9,11 @@
   <body>
     <h1>Add a new product</h1>
     <!--http structured post request form-->
+    <!--form data not sent via ?queryString(can exist) but sent via request body-->
+    <!--form data middlewareMethod of expressAppObject - converts request body into req.body-->
+    <!--ie jsObject-{key/name:inputValue,key/name:inputValue,key/name:inputValue}-->
     <form action="/products" method="POST">
+      <!-- match for to id -->
       <label for="name">Product Name</label>
       <input type="text" id="name" name="name" placeholder="product name" />
       <label for="price">Price (Unit)</label>
