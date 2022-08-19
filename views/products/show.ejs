@@ -10,10 +10,20 @@
     <h1><%= product.name %></h1>
     <ul>
       <li>Price:$<%= product.price %></li>
-      <li>Category:<%= product.category %></li>
+      <li>
+        Category:
+        <a href="/products?category=<%= product.category %>">
+          <%= product.category %>
+        </a>
+        <!--(http structured) GET request-->
+        <!--adding ?queryString to /resource/?key=value-->
+      </li>
     </ul>
     <a href="/products">Back to Index</a>
+    <!--(http structured) GET request-->
     <a href="/products/<%=product._id%>/edit">Edit Product</a>
+    <!--(http structured) GET request-->
+
     <!--http structured POST request form-->
     <!--browser forms can only make POST and GET method (http structured) requests-->
     <!--using method-override npm package - middlewareFunction("key") -->

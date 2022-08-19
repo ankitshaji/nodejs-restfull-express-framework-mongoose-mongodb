@@ -7,12 +7,19 @@
     <title>Products Index - All Products</title>
   </head>
   <body>
-    <h1>All Products</h1>
+    <h1><%= category %> Products</h1>
     <ul>
       <% for(let p of products){%>
       <li><a href="/products/<%=p._id%>"><%=p.name%></a></li>
+      <!--(http structured) GET request-->
       <%}%>
     </ul>
     <a href="/products/new">Add Product</a>
+    <!--(http structured) GET request-->
+    <!--if we are on /products with ?queryString then show return link to All products-->
+    <% if(category!=="All"){%>
+    <a href="/products">All products</a>
+    <!--(http structured) GET request-->
+    <%}%>
   </body>
 </html>

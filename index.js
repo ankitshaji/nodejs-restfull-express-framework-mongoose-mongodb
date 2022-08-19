@@ -53,20 +53,28 @@ const categories = ["fruit", "vegetable", "dairy"]; //arrayObject
 //RESTful webApi crud operations pattern (route/pattern matching algorithm - order matters) + MongoDB CRUD Operations using mongoose-ODM (modelClassObject)
 // *********************************************************************************************************************************************************
 
-//httpMethod=GET,path/resource-/products  -(direct match/exact path)
+//httpMethod=GET,path/resource-/products + can contain ?queryString  -(direct match/exact path)
 //(READ) name-index,purpose-display all documents in (products)collection from (farmStanddb)db
 //execute callback when http structure request arrives
 //convert (http structured) request to req jsObject + create res jsObject
 //async(ie continues running outside code if it hits an await inside) callback implicit returns promiseObject(resolved,undefined) - can await a promiseObject inside
 //async function expression without an await is just a normal syncronous function expression
 app.get("/products", async (req, res) => {
+  //object keys to variable - Object destructuring
+  const { category } = req.query; //queryStringObject
   // *****************************************************
   //READ - querying a collection for a document/documents
   // *****************************************************
   //productClassObject.method(queryObject) ie modelClassObject.method() - same as - db.products.find({})
   //returns thenableObject - pending to resolved(dataObject),rejected(errorObject)
-  const products = await Product.find({}); //products = dataObject ie array of all jsObjects(documents)
-  res.render("products/index", { products: products }); //(ejs filePath,variable sent to ejs)
+  //check if ?queryString exists ,undefined is false
+  if (category) {
+    const products = await Product.find({ category: category }); //products = dataObject ie array of all jsObjects(documents) that have the same category value
+    res.render("products/index", { products: products, category: category }); //(ejs filePath,variable sent to ejs)
+  } else {
+    const products = await Product.find({}); //products = dataObject ie array of all jsObjects(documents)
+    res.render("products/index", { products: products, category: "All" }); //(ejs filePath,variable sent to ejs)
+  }
   //render() - executes js - converts  ejs file into pure html
   //render() - converts and sends res jsObject as (http structure)response //content-type:text/html
 });
