@@ -41,7 +41,7 @@ app.set("views", path.join(__dirname, "/views"));
 //?queryString - (?key=value) therefore _method is key, we set value to it in html form
 app.use(methodOverride("_method")); //app.use() executes when any httpMethod/any httpStructured request arrives
 
-//Accept form data - AppObject.middlewareMethod() - (http structured) POST request body parsed to req.body
+//Accept form data - expressFunctionObject.middlewareMethod() - (http structured) POST request body parsed to req.body
 //(http structure) POST request could be from browser form or postman
 app.use(express.urlencoded({ extended: true })); //app.use() executes when any httpMethod/any httpStructured request arrives
 
